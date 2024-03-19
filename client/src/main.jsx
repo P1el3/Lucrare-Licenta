@@ -5,6 +5,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import LandingPage from "./components/LandingPage";
 import "./index.css";
 
@@ -18,13 +20,21 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
     ],
+
+  },
+  {
+    path: "/login",
+    element: <Login />
+  },
+  {
+    path: "/register",
+    element: <Register/>
   },
   
 ]);
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );

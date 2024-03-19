@@ -1,52 +1,43 @@
 import { NavLink } from "react-router-dom";
-import Button from "@mui/material/Button";
-import shadows from "@mui/material/styles/shadows";
+import { useNavigate } from "react-router-dom";
 import thumbnail from "../img/thumbnail.png";
 
-
 export default function Navbar() {
+  const navigate = useNavigate();
+
   return (
-    <nav style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        padding: '1rem', 
-        backgroundColor: '#00CED1'
-    }}>
-      <NavLink to="/">
-        <img src={thumbnail} alt="Thumbnail" style={{ width: '200px', height: 'auto' }} sx={{boxShadow: 5}} />
-      </NavLink>
-      <div>
-        <Button
-          sx={{boxShadow: 5}}
-          style={{
-            marginRight: '10px',
-            padding: '0.7em 1.2em',
-            fontSize: '0.9em',
-            color: '#000',
-            backgroundColor: '#FFA500',
-            border: 'none',
-            borderRadius: '0.3em',
-            cursor: 'pointer',
-          }}
-          
-          onClick={() => alert('Inregistreaza-te!')}>
+    <nav
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "1rem",
+        backgroundColor: "#111213",
+      }}
+    >
+      <div className="bg-green-700 rounded-lg p-1"> 
+        <NavLink to="/" className="block">
+          <img
+            src={thumbnail}
+            alt="Thumbnail"
+            className="w-[150px] h-auto" // Setează lățimea dorită aici
+          />
+        </NavLink>
+      </div>
+
+      <div className="flex justify-center space-x-4">
+        <button
+          className="px-6 py-3 bg-green-700 text-black font-bold text-xs uppercase rounded shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800 focus:ring-opacity-50"
+          onClick={() => navigate("/register")}
+        >
           Register
-        </Button>
-        <Button
-          sx={{boxShadow: 5}}
-          style={{
-            padding: '0.7em 1.2em',
-            fontSize: '0.9em',
-            color: '#000',
-            backgroundColor: '#FFA500',
-            border: 'none',
-            borderRadius: '0.3em',
-            cursor: 'pointer',
-          }}
-          onClick={() => alert('Logheaza-te!')}>
+        </button>
+        <button
+          className="px-6 py-3 bg-green-700 text-black font-bold text-xs uppercase rounded shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800 focus:ring-opacity-50"
+          onClick={() => navigate("/login")}
+        >
           LogIn
-        </Button>
+        </button>
       </div>
     </nav>
   );
