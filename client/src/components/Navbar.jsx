@@ -6,6 +6,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [hasAgencyDetails, setHasAgencyDetails] = useState(false);
+    const [agencyRegistered, setAgencyRegistered] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -40,6 +41,25 @@ export default function Navbar() {
         } catch (error) {
             console.error("Failed to fetch agency details:", error);
             setHasAgencyDetails(false);
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/agency/agency-details/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Adaugă token-ul de autentificare
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`); // Gestionează răspunsurile non-ok
+            }
+            const data = await response.json();
+            if(!data) {
+                setAgencyRegistered(false);
+            } else {setAgencyRegistered(true);}
+        } catch (error) {
+            setAgencyRegistered(false);
         }
     };
 
@@ -83,7 +103,7 @@ export default function Navbar() {
                     </>
                 ) : (
                     <>
-                        {hasAgencyDetails && (
+                        {(hasAgencyDetails && agencyRegistered) && (
                             <button
                                 className="px-6 py-3 bg-green-700 text-black font-bold text-xs uppercase rounded shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800 focus:ring-opacity-50"
                                 onClick={() => navigate("/edit-agency")}
@@ -91,7 +111,7 @@ export default function Navbar() {
                                 Editeaza Agentie
                             </button>
                         )}
-                        {hasAgencyDetails && (
+                        {(hasAgencyDetails && !agencyRegistered) && (
 
                             <button
                                 className="px-6 py-3 bg-green-700 text-black font-bold text-xs uppercase rounded shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800 focus:ring-opacity-50"

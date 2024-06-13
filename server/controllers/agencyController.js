@@ -103,7 +103,7 @@ const editAgencyDetails = async (req, res) => {
             nratv,
             nrmotociclete,
             localitate,
-            adresa
+            adresa,
         } = req.body;
 
         // Actualizarea agenției în baza de date

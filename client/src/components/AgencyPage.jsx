@@ -1,15 +1,16 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import backgroundIMG from "../img/background.jpg";
-import {NavLink, useParams} from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import thumbnail from "../img/thumbnail.png";
 import noImg from "../img/noimg.png";
 import Map from "./Map.jsx";
 
 const AgencyPage = () => {
-    const [agencyDetails, setAgencyDetails] = React.useState();
+    const [agencyDetails, setAgencyDetails] = useState(null);
+    const [lat, setLat] = useState(null);
+    const [lng, setLng] = useState(null);
+    const { agencyid } = useParams();
 
-
-    const {agencyid} = useParams();
     useEffect(() => {
         const url = `http://localhost:8080/api/agency/agency-details-page/${agencyid}`;
         fetch(url)
@@ -21,9 +22,14 @@ const AgencyPage = () => {
             })
             .then(data => {
                 setAgencyDetails(data);
+                if (data.coordonate) {
+                    const coords = data.coordonate.split(',');
+                    setLat(parseFloat(coords[0].trim()));
+                    setLng(parseFloat(coords[1].trim()));
+                }
             })
             .catch(error => {
-                console.error('Error fetching agency details', error)
+                console.error('Error fetching agency details', error);
             });
     }, [agencyid]);
 
@@ -40,11 +46,7 @@ const AgencyPage = () => {
             }}
         >
             <NavLink to="/" style={{display: "inline-block", marginBottom: "30px"}}>
-                <img
-                    src={thumbnail}
-                    alt="Thumbnail"
-                    style={{maxWidth: "200px", height: "auto"}}
-                />
+                <img src={thumbnail} alt="Thumbnail" style={{maxWidth: "200px", height: "auto"}} />
             </NavLink>
             <div>
                 {agencyDetails ? (
@@ -82,6 +84,7 @@ const AgencyPage = () => {
                                 <p>ATV-uri: {agencyDetails.nratv}</p>
                                 <p>Motociclete: {agencyDetails.nrmotociclete}</p>
                                 <p>Judet: {agencyDetails.localitate}</p>
+                                <p>Adresa: {agencyDetails.adresa}</p>
                             </div>
                             <div style={{
                                 flex: 2,
@@ -104,9 +107,12 @@ const AgencyPage = () => {
                 )}
             </div>
             <div className="flex flex-col items-center justify-center h-screen">
-                <Map/>
+                {agencyDetails && agencyDetails.adresa && (
+                    <Map address={agencyDetails.adresa}/>
+                )}
             </div>
         </div>
-    )
-}
+    );
+};
+
 export default AgencyPage;

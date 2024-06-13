@@ -1,0 +1,22 @@
+ agentieid | userid | numeagentie | nrtelagentie | nrmasini | nratv | nrmotociclete | localitate | ghidid | adresa  
+-----------+--------+-------------+--------------+----------+-------+---------------+------------+--------+---------
+         1 |        |             |              |          |       |               |            |        | 
+         2 |        |             |              |          |       |               |            |        | 
+         3 |        | La Lucica   |              |          |       |               | da         |        | 
+         4 |        | La Lucica   |              |          |       |               | da         |        | 
+         5 |        | La Lucica   |              | 1        |       |               | da         |        | 
+         6 |        | La Lucica   |              |          |       |               |            |        | 
+         7 |        | La Lucica   | 696969696    |          | 2     |               |            |        | 
+         8 |        | La Lucica   | 696969696    |          | 2     |               |            |        | 
+         9 |        | La Lucica   | 696969696    | 2        | 2     | 2             | da         |        | 
+        10 |        | 1234        | 1234         | 1        | 1     | 1             | 1          |        | 
+        11 |        | 1234        | 1234         | 1        | 1     | 1             |            |        | 
+        45 |     49 | La Lucica   | 696969696    | 5        | 7     | 1             | Prahova    |        | 
+        46 |     50 | La Bogdanel | 12345567     | 69       | 0     | 1             | Prahova    |        | 
+        47 |     49 | La Lucica   | 696969696    | 1        | 20    | 0             | Gorj       |        | 
+        48 |     51 | test        | test         | 42412    | 0     | 1222          | Bihor      |        | 
+        12 |     45 | 1234        | 1234         | 11234    | 134   | 134           | Maramureș  |        | 
+        44 |     45 | 1234        | 1234         | 1        | 1     | 1             | Maramureș  |        | 
+        49 |     55 | La savu     | 0732796052   | 123      | 123   | 123           | Cluj       |        | hkjsdaf
+(18 rows)
+

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import backgroundIMG from "../img/background.jpg";
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import thumbnail from "../img/thumbnail.png";
 
 const EditAgency = () => {
@@ -52,8 +52,8 @@ const EditAgency = () => {
         event.preventDefault();
         const data = new FormData(event.target);
         let city;
-        if ( data.get('city').length === 2) {
-            city =  data.get('city').toUpperCase();
+        if (data.get('city').length === 2) {
+            city = data.get('city').toUpperCase();
         } else {
             city = data.get('city');
         }// Obține orașul și convertește-l în majuscule pentru a se potrivi cu lista
@@ -76,7 +76,7 @@ const EditAgency = () => {
             nratv: agencyDetails.nratv,
             nrmotociclete: agencyDetails.nrmotociclete,
             localitate: city,
-            adresa: agencyDetails.adresa
+            adresa: agencyDetails.adresa,
         };
 
         const url = `http://localhost:8080/api/agency/edit-agency/${agencyDetails.agentieid}`;

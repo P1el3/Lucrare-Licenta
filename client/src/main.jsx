@@ -49,8 +49,7 @@ const router = createBrowserRouter([
   {
     path: '/edit-agency',
     element: <EditAgency/>
-  }
-
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
