@@ -6,6 +6,7 @@ import thumbnail from "../img/thumbnail.png";
 const EditAgency = () => {
     const navigate = useNavigate();
     const [agencyDetails, setAgencyDetails] = useState(null);
+    const [characterCount, setCharacterCount] = useState(0);
 
     // Obiectul cu județele și prescurtările lor
     const judete = {
@@ -36,13 +37,28 @@ const EditAgency = () => {
                     nrmotociclete: data.nrmotociclete || '',
                     localitate: data.localitate || '',
                     adresa: data.adresa || '',
+                    descriere: data.descriere || '',
                     agentieid: data.agentieid
                 });
+                if (data.descriere !== null) {
+                    setCharacterCount(data.descriere.length || 0);
+                }
             })
             .catch(error => {
                 console.error('Error fetching agency details', error);
             });
     }, []);
+
+    const handleDescriptionChange = event => {
+        const newText = event.target.value;
+        if (newText.length <= 255) {
+            setAgencyDetails({...agencyDetails, descriere: newText});
+            setCharacterCount(newText.length);
+        } else {
+            alert("Descrierea nu poate depăși 255 de caractere!");
+        }
+
+    };
 
     if (!agencyDetails) {
         return <div>Loading...</div>;
@@ -77,6 +93,7 @@ const EditAgency = () => {
             nrmotociclete: agencyDetails.nrmotociclete,
             localitate: city,
             adresa: agencyDetails.adresa,
+            descriere: agencyDetails.descriere,
         };
 
         const url = `http://localhost:8080/api/agency/edit-agency/${agencyDetails.agentieid}`;
@@ -98,6 +115,34 @@ const EditAgency = () => {
             console.error('Failed to update agency details', error);
         }
     };
+
+    const handleImageUpload = (event) => {
+        if (!agencyDetails.agentieid) {
+            console.error('Agency ID is undefined');
+            return;
+        }
+
+        const files = event.target.files;
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('images', files[i]);
+        }
+        const uploadURL = `http://localhost:8080/api/images/upload/${agencyDetails.agentieid}`;
+
+        fetch(uploadURL, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error uploading images:', error);
+            });
+    };
+
+
 
     return (
         <div
@@ -221,6 +266,49 @@ const EditAgency = () => {
                                 onChange={e => setAgencyDetails({...agencyDetails, adresa: e.target.value})}
                             />
                         </div>
+                        <div style={{position: 'relative'}}>
+                            <label htmlFor="description" className="block text-sm font-medium text-gray-300">
+                                Descriere
+                            </label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                                placeholder="Descriere"
+                                value={agencyDetails.descriere}
+                                onChange={handleDescriptionChange}
+                                rows={4}
+                            ></textarea>
+                            <div style={{
+                                position: 'absolute',
+                                top: '3px',
+                                right: '10px',
+                                color: 'white',
+                                fontSize: '12px',
+                                padding: '2px 6px',
+                                borderRadius: '4px'
+                            }}>
+                                {characterCount} / 255
+                            </div>
+                        </div>
+
+                        <div>
+                            <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-300">
+                                Încarcă Imagini
+                            </label>
+                            <input
+                                type="file"
+                                id="imageUpload"
+                                name="imageUpload"
+                                accept="image/*"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                            />
+                        </div>
+
+
                         <div>
                             <button
                                 type="submit"

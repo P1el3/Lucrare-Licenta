@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import backgroundIMG from "../img/background.jpg";
-import { NavLink, useParams } from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import thumbnail from "../img/thumbnail.png";
-import noImg from "../img/noimg.png";
 import Map from "./Map.jsx";
 
 const AgencyPage = () => {
     const [agencyDetails, setAgencyDetails] = useState(null);
-    const [lat, setLat] = useState(null);
-    const [lng, setLng] = useState(null);
-    const { agencyid } = useParams();
+    const {agencyid} = useParams();
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         const url = `http://localhost:8080/api/agency/agency-details-page/${agencyid}`;
@@ -22,16 +20,32 @@ const AgencyPage = () => {
             })
             .then(data => {
                 setAgencyDetails(data);
-                if (data.coordonate) {
-                    const coords = data.coordonate.split(',');
-                    setLat(parseFloat(coords[0].trim()));
-                    setLng(parseFloat(coords[1].trim()));
-                }
             })
             .catch(error => {
                 console.error('Error fetching agency details', error);
             });
     }, [agencyid]);
+
+    useEffect(() => {
+        const url = `http://localhost:8080/api/images/get-images/${agencyid}`;
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw Error("An error occurred");
+                }
+                return response.json();
+            })
+            .then(data => {
+                setImages(data.images);
+            })
+            .catch(error => {
+                console.error('Error fetching agency details', error);
+            });
+    }, [agencyid]);
+
+    const getImage = (url => {
+        return `http://localhost:8080/${url}`
+    })
 
     return (
         <div
@@ -46,8 +60,11 @@ const AgencyPage = () => {
             }}
         >
             <NavLink to="/" style={{display: "inline-block", marginBottom: "30px"}}>
-                <img src={thumbnail} alt="Thumbnail" style={{maxWidth: "200px", height: "auto"}} />
+                <img src={thumbnail} alt="Thumbnail" style={{maxWidth: "200px", height: "auto"}}/>
             </NavLink>
+            <div>
+                <img src={getImage(images[0])} alt="descriere"/>
+            </div>
             <div>
                 {agencyDetails ? (
                     <div style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "20px"}}>
@@ -55,6 +72,7 @@ const AgencyPage = () => {
                             maxWidth: "600px",
                             width: "100%",
                             display: "flex",
+                            flexDirection: "column",
                             backgroundColor: "rgba(0, 0, 0, 0.75)",
                             padding: "20px",
                             borderRadius: "8px",
@@ -79,29 +97,21 @@ const AgencyPage = () => {
                                 <h2 style={{margin: "0", color: "white"}}>{agencyDetails.numeagentie}</h2>
                                 <h2 style={{margin: "0", color: "white"}}>Contact: {agencyDetails.nrtelagentie}</h2>
                             </div>
-                            <div style={{flex: 3, marginRight: "10px", zIndex: 1}}>
-                                <p style={{marginTop: "60px"}}>Masini de teren: {agencyDetails.nrmasini}</p>
-                                <p>ATV-uri: {agencyDetails.nratv}</p>
-                                <p>Motociclete: {agencyDetails.nrmotociclete}</p>
-                                <p>Judet: {agencyDetails.localitate}</p>
-                                <p>Adresa: {agencyDetails.adresa}</p>
+                            <div style={{display: 'flex', flexDirection: 'row', marginTop: '60px'}}>
+                                <div style={{flex: 3, marginRight: "20px"}}>
+                                    <p>Masini de teren: {agencyDetails.nrmasini}</p>
+                                    <p>ATV-uri: {agencyDetails.nratv}</p>
+                                    <p>Motociclete: {agencyDetails.nrmotociclete}</p>
+                                    <p>Judet: {agencyDetails.localitate}</p>
+                                    <p>Adresa: {agencyDetails.adresa}</p>
+                                </div>
                             </div>
-                            <div style={{
-                                flex: 2,
-                                zIndex: 1,
-                                marginTop: "50px",
-                                display: 'flex',
-                                justifyContent: 'center'
-                            }}>
-                                <img src={noImg} alt="Agency" style={{
-                                    width: "auto",
-                                    height: "80%",
-                                    objectFit: "cover",
-                                    borderRadius: "5px"
-                                }}/>
+                            <div style={{marginTop: "20px", width: "100%"}}>
+                                <p>Descriere: {agencyDetails.descriere}</p>
                             </div>
                         </div>
                     </div>
+
                 ) : (
                     <p>Loading agency details...</p>
                 )}
@@ -110,6 +120,7 @@ const AgencyPage = () => {
                 {agencyDetails && agencyDetails.adresa && (
                     <Map address={agencyDetails.adresa}/>
                 )}
+
             </div>
         </div>
     );

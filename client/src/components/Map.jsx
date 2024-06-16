@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, useLoadScript, Marker, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -15,7 +15,7 @@ const defaultCenter = {
 
 const Map = ({ address }) => {
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: "AIzaSyDC_j-yBuVYS1-sDAEjhJgVkBFV6XF4eI4",
+        googleMapsApiKey: "AIzaSyAgdxMZy1WHU6QuLbr8306BnpI2beRiXV8",
         libraries,
     });
     const [coordinates, setCoordinates] = useState(defaultCenter); // Setează defaultCenter ca valoare inițială
@@ -24,7 +24,7 @@ const Map = ({ address }) => {
         if (!address) return; // Verifică dacă adresa există
 
         const formattedAddress = encodeURIComponent(address);
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=AIzaSyDC_j-yBuVYS1-sDAEjhJgVkBFV6XF4eI4`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=AIzaSyAgdxMZy1WHU6QuLbr8306BnpI2beRiXV8`;
 
         fetch(url)
             .then(response => response.json())

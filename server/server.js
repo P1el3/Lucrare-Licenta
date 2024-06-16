@@ -6,8 +6,7 @@ const cors = require('cors'); // Import the cors package
 const db = require('./models');
 const userRoutes = require('./routes/users');
 const agencyRoutes = require('./routes/agency');
-
-
+const imagesRoutes = require('./routes/images');
 // Setting up your port
 const PORT = process.env.PORT || 8080;
 
@@ -34,6 +33,7 @@ db.sequelize.sync({ force: false }).then(() => {
 // Routes for the user API
 app.use('/api/users', userRoutes);
 app.use('/api/agency', agencyRoutes);
-
+app.use('/api/images', imagesRoutes);
+app.use('/uploadss', express.static(path.join(__dirname, 'uploadss')));
 // Listening to server connection
 app.listen(PORT, () => console.log(`Server is connected on ${PORT}`));

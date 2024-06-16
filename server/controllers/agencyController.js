@@ -9,7 +9,7 @@ const addAgency = async (req, res) => {
     try {
 
         const {
-            userid, numeagentie, nrtelagentie, nrmasini, nratv, nrmotociclete, localitate, adresa
+            userid, numeagentie, nrtelagentie, nrmasini, nratv, nrmotociclete, localitate, adresa, descriere
         } = req.body;
         const data = {
             userid,
@@ -20,6 +20,7 @@ const addAgency = async (req, res) => {
             nrmotociclete,
             localitate,
             adresa,
+            descriere,
         };
         console.log(data)
         // Saving the agency
@@ -59,6 +60,7 @@ const getAgencyDetails = async (req, res) => {
                 agentieid: agencyid
             }
         });
+
         res.status(200).json(agency);
     } catch (error) {
         console.error("Get Agency Details Error: ", error);
@@ -104,6 +106,7 @@ const editAgencyDetails = async (req, res) => {
             nrmotociclete,
             localitate,
             adresa,
+            descriere,
         } = req.body;
 
         // Actualizarea agenției în baza de date
@@ -114,7 +117,8 @@ const editAgencyDetails = async (req, res) => {
             nratv: nratv,
             nrmotociclete: nrmotociclete,
             localitate: localitate,
-            adresa: adresa
+            adresa: adresa,
+            descriere: descriere,
         });
 
         // Răspunsul cu detaliile agenției actualizate
@@ -130,6 +134,8 @@ const editAgencyDetails = async (req, res) => {
         });
     }
 }
+
+
 
 
 module.exports = {

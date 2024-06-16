@@ -29,13 +29,9 @@ module.exports = (sequelize, DataTypes) => {
         adresa: {
             type: DataTypes.STRING
         },
-        ghidid: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'ghizi',
-                key: 'ghidid'
-            }
-        }
+        descriere: {
+            type: DataTypes.STRING
+        },
     }, {
         timestamps: false,
         tableName: 'agentii'
