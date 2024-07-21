@@ -15,7 +15,7 @@ const defaultCenter = {
 
 const Map = ({ address }) => {
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: "AIzaSyAgdxMZy1WHU6QuLbr8306BnpI2beRiXV8",
+        googleMapsApiKey: "{GOOGLE API KEY}",
         libraries,
     });
     const [coordinates, setCoordinates] = useState(defaultCenter); // Setează defaultCenter ca valoare inițială
@@ -24,7 +24,7 @@ const Map = ({ address }) => {
         if (!address) return; // Verifică dacă adresa există
 
         const formattedAddress = encodeURIComponent(address);
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=AIzaSyAgdxMZy1WHU6QuLbr8306BnpI2beRiXV8`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key={GOOGLE API KEY}`;
 
         fetch(url)
             .then(response => response.json())
